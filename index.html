@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fighting Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Press Start 2P', cursive;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
+    integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+  <script src="./js/utils.js" defer></script>
+  <script src="./js/classes.js" defer></script>
+  <script src="./index.js" defer></script>
+</head>
+<body>
+  <div style="position: relative; display: inline-block;">
+    <div style=" position: absolute; display: flex; width: 100%; align-items: center; padding: 20px; ">
+
+      <div style="border: 4px solid white; border-right: none; position: relative;width: 100%; display: flex; justify-content: flex-end;">
+        <div style="background-color: red; height: 30px; width: 100%;"></div>
+        <div style="position: absolute; background-color: #818cf8; top: 0; right: 0; width: 100%; bottom: 0;" id="playerHealth"></div>
+      </div>
+
+      <div id="timer" style="border: 4px solid white; background-color: black; color: white; width: 150px; height: 50px; display: flex; align-items: center; justify-content: center;">
+        10
+      </div>
+
+      <div style="border: 4px solid white; border-left: none; position: relative; width: 100%; ">
+        <div style="background-color: red; height: 30px; "></div>
+        <div style="position: absolute; background-color: #818cf8; top: 0; right: 0; left: 0; bottom: 0;" id="enemyHealth"></div>
+      </div>
+    </div>
+    <div id="displayText" style="position: absolute; color: white; align-items: center; justify-content: center; top: 0; left: 0; right: 0; bottom: 0; display: none; font-size: large;">
+      tie
+    </div>
+    <canvas></canvas>
+  </div>
+</body>
+</html>
