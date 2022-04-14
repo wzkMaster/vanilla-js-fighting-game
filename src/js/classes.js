@@ -1,10 +1,14 @@
-class Sprite {
+const gravity = 0.7;
+const width = 1024;
+const height = 576;
+export class Sprite {
   constructor({
     position,
     imageSrc,
     scale = 1,
     framesMax = 1,
     offset = { x: 0, y: 0 },
+    context,
   }) {
     this.position = position;
     this.height = 150;
@@ -17,10 +21,11 @@ class Sprite {
     this.framesElapsed = 0;
     this.framesHold = 5;
     this.offset = offset;
+    this.c = context;
   }
 
   draw() {
-    c.drawImage(
+    this.c.drawImage(
       this.image,
       this.framesCurrent * (this.image.width / this.framesMax),
       0,
@@ -51,7 +56,7 @@ class Sprite {
   }
 }
 
-class Fighter extends Sprite {
+export class Fighter extends Sprite {
   constructor({
     position,
     velocity,
@@ -62,8 +67,9 @@ class Fighter extends Sprite {
     offset = { x: 0, y: 0 },
     sprites,
     attackBox = { offset: {}, width: undefined, height: undefined },
+    context,
   }) {
-    super({ position, imageSrc, scale, framesMax, offset });
+    super({ position, imageSrc, scale, framesMax, offset, context });
     this.velocity = velocity;
     this.height = 150;
     this.width = 50;
@@ -103,14 +109,14 @@ class Fighter extends Sprite {
     //   this.attackBox.height
     // );
 
-    if (this.position.y + this.height + this.velocity.y >= canvas.height - 96) {
+    if (this.position.y + this.height + this.velocity.y >= height - 96) {
       this.velocity.y = 0;
       this.position.y = 330;
     } else {
       this.velocity.y += gravity;
     }
     if (
-      this.position.x + this.width > canvas.width ||
+      this.position.x + this.width > width ||
       this.position.x - this.width < 0
     ) {
       this.velocity.x = 0;

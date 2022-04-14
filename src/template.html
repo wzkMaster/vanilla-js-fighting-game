@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,18 +12,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
     integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-  <script src="src/index.js" type="module"></script>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+
 </head>
+
 <body>
   <div class="container">
     <div class="header">
 
       <div class="hp reverse">
-        <div class="blood" ></div>
+        <div class="blood"></div>
         <div class="remain" id="playerHealth"></div>
       </div>
 
-      <div id="timer" ></div>
+      <div id="timer"></div>
 
       <div class="hp">
         <div class="blood"></div>
@@ -35,4 +38,5 @@
     <canvas></canvas>
   </div>
 </body>
+
 </html>

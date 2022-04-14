@@ -1,19 +1,38 @@
+import { decreaseTimer, rectangularCollision } from "./js/utils";
+import { Sprite, Fighter } from "./js/classes";
+import "./css/style.css";
+import backgroundImg from "./images/background.png";
+import shopImg from "./images/shop.png";
+import samuraiIdle from "./images/samuraiMack/Idle.png";
+import samuraiRun from "./images/samuraiMack/Run.png";
+import samuraiJump from "./images/samuraiMack/Jump.png";
+import samuraiFall from "./images/samuraiMack/Fall.png";
+import samuraiAttack1 from "./images/samuraiMack/Attack1.png";
+import samuraiAttack2 from "./images/samuraiMack/Attack2.png";
+import samuraiTakeHit from "./images/samuraiMack/Take-Hit.png";
+import samuraiDeath from "./images/samuraiMack/Death.png";
+import kenjiIdle from "./images/kenji/Idle.png";
+import kenjiRun from "./images/kenji/Run.png";
+import kenjiJump from "./images/kenji/Jump.png";
+import kenjiFall from "./images/kenji/Fall.png";
+import kenjiAttack1 from "./images/kenji/Attack1.png";
+import kenjiAttack2 from "./images/kenji/Attack2.png";
+import kenjiDeath from "./images/kenji/Death.png";
+import kenjiTakeHit from "./images/kenji/Take-Hit.png";
+
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
-
 canvas.width = 1024;
 canvas.height = 576;
-
 c.fillRect(0, 0, canvas.width, canvas.height);
-
-const gravity = 0.7;
 
 const background = new Sprite({
   position: {
     x: 0,
     y: 0,
   },
-  imageSrc: "./images/background.png",
+  imageSrc: backgroundImg,
+  context: c,
 });
 
 const shop = new Sprite({
@@ -21,9 +40,10 @@ const shop = new Sprite({
     x: 600,
     y: 160,
   },
-  imageSrc: "./images/shop.png",
+  imageSrc: shopImg,
   scale: 2.5,
   framesMax: 6,
+  context: c,
 });
 
 const player = new Fighter({
@@ -39,36 +59,36 @@ const player = new Fighter({
     x: 215,
     y: 160,
   },
-  imageSrc: "./images/samuraiMack/Idle.png",
+  imageSrc: samuraiIdle,
   framesMax: 8,
   scale: 2.5,
   sprites: {
     idle: {
-      imageSrc: "./images/samuraiMack/Idle.png",
+      imageSrc: samuraiIdle,
       framesMax: 8,
     },
     run: {
-      imageSrc: "./images/samuraiMack/Run.png",
+      imageSrc: samuraiRun,
       framesMax: 8,
     },
     jump: {
-      imageSrc: "./images/samuraiMack/Jump.png",
+      imageSrc: samuraiJump,
       framesMax: 2,
     },
     fall: {
-      imageSrc: "./images/samuraiMack/Fall.png",
+      imageSrc: samuraiFall,
       framesMax: 2,
     },
     attack1: {
-      imageSrc: "./images/samuraiMack/Attack1.png",
+      imageSrc: samuraiAttack1,
       framesMax: 6,
     },
     takeHit: {
-      imageSrc: "./images/samuraiMack/Take-Hit.png",
+      imageSrc: samuraiTakeHit,
       framesMax: 4,
     },
     death: {
-      imageSrc: "./images/samuraiMack/Death.png",
+      imageSrc: samuraiDeath,
       framesMax: 6,
     },
   },
@@ -80,6 +100,7 @@ const player = new Fighter({
     width: 160,
     height: 75,
   },
+  context: c,
 });
 const enemy = new Fighter({
   position: {
@@ -94,36 +115,36 @@ const enemy = new Fighter({
     x: 215,
     y: 167,
   },
-  imageSrc: "./images/kenji/Idle.png",
+  imageSrc: kenjiIdle,
   framesMax: 4,
   scale: 2.5,
   sprites: {
     idle: {
-      imageSrc: "./images/kenji/Idle.png",
+      imageSrc: kenjiIdle,
       framesMax: 4,
     },
     run: {
-      imageSrc: "./images/kenji/Run.png",
+      imageSrc: kenjiRun,
       framesMax: 8,
     },
     jump: {
-      imageSrc: "./images/kenji/Jump.png",
+      imageSrc: kenjiJump,
       framesMax: 2,
     },
     fall: {
-      imageSrc: "./images/kenji/Fall.png",
+      imageSrc: kenjiFall,
       framesMax: 2,
     },
     attack1: {
-      imageSrc: "./images/kenji/Attack1.png",
+      imageSrc: kenjiAttack1,
       framesMax: 4,
     },
     takeHit: {
-      imageSrc: "./images/kenji/Take-hit.png",
+      imageSrc: kenjiTakeHit,
       framesMax: 3,
     },
     death: {
-      imageSrc: "./images/kenji/Death.png",
+      imageSrc: kenjiDeath,
       framesMax: 7,
     },
   },
@@ -135,6 +156,7 @@ const enemy = new Fighter({
     width: 160,
     height: 75,
   },
+  context: c,
 });
 
 const keys = {
@@ -152,34 +174,7 @@ const keys = {
   },
 };
 
-function rectangularCollision({ rectangle1, rectangle2 }) {
-  return (
-    rectangle1.attackBox.position.x + rectangle1.attackBox.width >=
-      rectangle2.position.x &&
-    rectangle1.attackBox.position.x <=
-      rectangle2.position.x + rectangle2.width &&
-    rectangle1.attackBox.position.y + rectangle1.attackBox.height >=
-      rectangle2.position.y &&
-    rectangle1.attackBox.position.y <= rectangle2.position.y + rectangle2.height
-  );
-}
-
-function determineWinner({ player, enemy, timerId }) {
-  clearTimeout(timerId);
-  if (player.health === enemy.health) {
-    document.querySelector("#displayText").innerHTML = "Tie";
-  } else if (player.health > enemy.health) {
-    document.querySelector("#displayText").innerHTML = "Player 1 Wins";
-  } else {
-    document.querySelector("#displayText").innerHTML = "Player 2 Wins";
-  }
-  document.querySelector("#displayText").style.display = "flex";
-}
-
-let timer = 60;
-let timerId;
-
-decreaseTimer();
+decreaseTimer(player, enemy);
 
 function animate() {
   requestAnimationFrame(animate);
@@ -210,6 +205,7 @@ function animate() {
   } else if (player.velocity.y > 0) {
     player.switchSprite("fall");
   }
+
   if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
     enemy.velocity.x = -7.5;
     enemy.switchSprite("run");
@@ -332,3 +328,15 @@ window.addEventListener("keyup", (event) => {
       break;
   }
 });
+
+function determineWinner({ player, enemy, timerId }) {
+  clearTimeout(timerId);
+  if (player.health === enemy.health) {
+    document.querySelector("#displayText").innerHTML = "Tie";
+  } else if (player.health > enemy.health) {
+    document.querySelector("#displayText").innerHTML = "Player 1 Wins";
+  } else {
+    document.querySelector("#displayText").innerHTML = "Player 2 Wins";
+  }
+  document.querySelector("#displayText").style.display = "flex";
+}
