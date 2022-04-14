@@ -28,7 +28,7 @@ const shop = new Sprite({
 
 const player = new Fighter({
   position: {
-    x: 0,
+    x: 100,
     y: 0,
   },
   velocity: {
@@ -63,6 +63,10 @@ const player = new Fighter({
       imageSrc: "./images/samuraiMack/Attack1.png",
       framesMax: 6,
     },
+    attack2: {
+      imageSrc: "./images/samuraiMack/Attack2.png",
+      framesMax: 6,
+    },
     takeHit: {
       imageSrc: "./images/samuraiMack/Take-Hit.png",
       framesMax: 4,
@@ -83,7 +87,7 @@ const player = new Fighter({
 });
 const enemy = new Fighter({
   position: {
-    x: canvas.width - 50,
+    x: canvas.width - 100,
     y: 0,
   },
   velocity: {
@@ -116,6 +120,10 @@ const enemy = new Fighter({
     },
     attack1: {
       imageSrc: "./images/kenji/Attack1.png",
+      framesMax: 4,
+    },
+    attack2: {
+      imageSrc: "./images/kenji/Attack2.png",
       framesMax: 4,
     },
     takeHit: {
@@ -196,10 +204,14 @@ function animate() {
   player.velocity.x = 0;
   enemy.velocity.x = 0;
 
-  if (keys.a.pressed && player.lastKey === "a") {
+  if (keys.a.pressed && player.lastKey === "a" && player.position.x > 0) {
     player.velocity.x = -5;
     player.switchSprite("run");
-  } else if (keys.d.pressed && player.lastKey === "d") {
+  } else if (
+    keys.d.pressed &&
+    player.lastKey === "d" &&
+    player.position.x + player.width < canvas.width
+  ) {
     player.velocity.x = 5;
     player.switchSprite("run");
   } else {
@@ -210,10 +222,18 @@ function animate() {
   } else if (player.velocity.y > 0) {
     player.switchSprite("fall");
   }
-  if (keys.ArrowLeft.pressed && enemy.lastKey === "ArrowLeft") {
+  if (
+    keys.ArrowLeft.pressed &&
+    enemy.lastKey === "ArrowLeft" &&
+    enemy.position.x > 0
+  ) {
     enemy.velocity.x = -7.5;
     enemy.switchSprite("run");
-  } else if (keys.ArrowRight.pressed && enemy.lastKey === "ArrowRight") {
+  } else if (
+    keys.ArrowRight.pressed &&
+    enemy.lastKey === "ArrowRight" &&
+    enemy.position.x + enemy.width < canvas.width
+  ) {
     enemy.velocity.x = 7.5;
     enemy.switchSprite("run");
   } else {
@@ -289,8 +309,11 @@ window.addEventListener("keydown", (event) => {
           player.velocity.y = -20;
         }
         break;
-      case " ":
-        player.attack();
+      case "g":
+        player.attack(1);
+        break;
+      case "h":
+        player.attack(2);
         break;
     }
   }
@@ -309,8 +332,11 @@ window.addEventListener("keydown", (event) => {
           enemy.velocity.y = -20;
         }
         break;
-      case "ArrowDown":
-        enemy.attack();
+      case "k":
+        enemy.attack(1);
+        break;
+      case "l":
+        enemy.attack(2);
         break;
     }
   }
