@@ -27,8 +27,8 @@ const shop = new Sprite({
 });
 
 const attack = {
-  player: [12.5, 20],
-  enemy: [7.5, 10],
+  player: [10, 15],
+  enemy: [5, 7.5],
 };
 
 const player = new Fighter({
@@ -265,7 +265,7 @@ function animate() {
     enemy.takeHit(attack.player[player.isAttacking - 1]);
     player.isAttacking = false;
     gsap.to("#enemyHealth", {
-      width: `${enemy.health}%`,
+      width: `${enemy.health > 0 ? enemy.health : 0}%`,
     });
   }
 
@@ -283,7 +283,7 @@ function animate() {
     player.takeHit(attack.enemy[enemy.isAttacking - 1]);
     enemy.isAttacking = false;
     gsap.to("#playerHealth", {
-      width: `${player.health}%`,
+      width: `${player.health > 0 ? player.health : 0}%`,
     });
   }
 
