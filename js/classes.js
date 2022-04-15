@@ -128,7 +128,7 @@ class Fighter extends Sprite {
 
   attack(type) {
     this.switchSprite(`attack${type}`);
-    this.isAttacking = true;
+    this.isAttacking = type;
   }
 
   takeHit(damage) {

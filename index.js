@@ -26,6 +26,11 @@ const shop = new Sprite({
   framesMax: 6,
 });
 
+const attack = {
+  player: [12.5, 20],
+  enemy: [7.5, 10],
+};
+
 const player = new Fighter({
   position: {
     x: 100,
@@ -205,6 +210,7 @@ function animate() {
   enemy.velocity.x = 0;
 
   if (keys.a.pressed && player.lastKey === "a" && player.position.x > 0) {
+    player.reverse = true;
     player.velocity.x = -5;
     player.switchSprite("run");
   } else if (
@@ -212,6 +218,7 @@ function animate() {
     player.lastKey === "d" &&
     player.position.x + player.width < canvas.width
   ) {
+    player.reverse = false;
     player.velocity.x = 5;
     player.switchSprite("run");
   } else {
@@ -227,6 +234,7 @@ function animate() {
     enemy.lastKey === "ArrowLeft" &&
     enemy.position.x > 0
   ) {
+    enemy.reverse = false;
     enemy.velocity.x = -7.5;
     enemy.switchSprite("run");
   } else if (
@@ -234,6 +242,7 @@ function animate() {
     enemy.lastKey === "ArrowRight" &&
     enemy.position.x + enemy.width < canvas.width
   ) {
+    enemy.reverse = true;
     enemy.velocity.x = 7.5;
     enemy.switchSprite("run");
   } else {
@@ -253,7 +262,7 @@ function animate() {
     player.isAttacking &&
     player.framesCurrent === 4
   ) {
-    enemy.takeHit(12.5);
+    enemy.takeHit(attack.player[player.isAttacking - 1]);
     player.isAttacking = false;
     gsap.to("#enemyHealth", {
       width: `${enemy.health}%`,
@@ -271,7 +280,7 @@ function animate() {
     }) &&
     enemy.isAttacking
   ) {
-    player.takeHit(6.25);
+    player.takeHit(attack.enemy[enemy.isAttacking - 1]);
     enemy.isAttacking = false;
     gsap.to("#playerHealth", {
       width: `${player.health}%`,
